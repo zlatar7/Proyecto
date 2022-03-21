@@ -7,7 +7,7 @@ class Contenedor{
         this.thumbnail = thumbnail
     }
 
-    static async save(objeto){
+    async save(objeto){
         try {
             const contenido = await fs.promises.readFile("./Test.txt", "utf-8")
             const info = JSON.parse(contenido)
@@ -27,7 +27,7 @@ class Contenedor{
             }
     }
 
-    static async getById(numId){
+    async getById(numId){
         try {
             const contenido = await fs.promises.readFile("./Test.txt", "utf-8");
             const info = JSON.parse(contenido);
@@ -43,7 +43,7 @@ class Contenedor{
         }
     }
 
-    static async getAll(){
+    async getAll(){
         try {
             const contenido = await fs.promises.readFile("./Test.txt", "utf-8");
             const info = JSON.parse(contenido);
@@ -53,7 +53,7 @@ class Contenedor{
         }
     }
 
-    static async deleteById(numId){
+    async deleteById(numId){
         try {
             const contenido = await fs.promises.readFile("./Test.txt", "utf-8");
             const info = JSON.parse(contenido);
@@ -63,7 +63,7 @@ class Contenedor{
                 const nuevoArray = info.filter((item) =>item.id !== numId);
 
                 const resultado = JSON.stringify(nuevoArray)
-                fs.writeFileSync("./Test.txt", resultado)
+                fs.promises.writeFile("./Test.txt", resultado)
                 console.log("El producto seleccionado ha sido eliminado")
             } else {
                 console.log("No existe el ID ingresado")                
@@ -73,30 +73,31 @@ class Contenedor{
         }
     }
 
-    static deleteAll(){
+    async deleteAll(){
         try {
             const arrayVacio = JSON.stringify([])
-            fs.writeFileSync("./Test.txt", arrayVacio)
+            fs.promises.writeFile("./Test.txt", arrayVacio)
             console.log("Todos los productos han sido eliminados")
         } catch (error) {
             console.log(error)
         }
     }
 }
-
 //Prueba de la función Save()
- Contenedor.save({title:"pelotas", precio: 200, thumbnail: "https://google.com.ar"});
+const producto1 = new Contenedor ("pelotas",200,"https://google.com.ar");
+producto1.save(producto1)
     //Se utiliza el SetTimeout asi no se superpone con el primer producto a guardar
-setTimeout(()=>{Contenedor.save({title:"transportador", precio: 100, thumbnail: "https://fotos.com.ar"})},1000)
+const producto2 = new Contenedor("transportador", 100, "https://fotos.com.ar")
+setTimeout(()=>{producto2.save(producto2)}, 1000);
 
 //Prueba de la función GetById()
-Contenedor.getById(1);
+producto1.getById(2);
 
 //Prueba de la función GetAll()
-Contenedor.getAll();
+producto1.getAll();
 
 //Prueba de la función DeleteById()
-Contenedor.deleteById(3);
+producto1.deleteById(3);
 
 //Prueba de la función DeleteAll()
-Contenedor.deleteAll();
+producto1.deleteAll();
