@@ -18,7 +18,7 @@ class Contenedor{
                 //Se agrega el objeto al array 
             const arrayCompleto = JSON.stringify([...info, objetoConId]);
 
-            fs.writeFileSync("./Test.txt", arrayCompleto)
+            fs.promises.writeFile("./Test.txt", arrayCompleto)
             console.log("Se ha agregado el producto")
             console.log(`El ID asignado es ${id}`)
             }            
@@ -85,7 +85,7 @@ class Contenedor{
 }
 //Prueba de la función Save()
 const producto1 = new Contenedor ("pelotas",200,"https://google.com.ar");
-producto1.save(producto1)
+producto1.save(producto1)/* 
     //Se utiliza el SetTimeout asi no se superpone con el primer producto a guardar
 const producto2 = new Contenedor("transportador", 100, "https://fotos.com.ar")
 setTimeout(()=>{producto2.save(producto2)}, 1000);
@@ -100,4 +100,4 @@ producto1.getAll();
 producto1.deleteById(3);
 
 //Prueba de la función DeleteAll()
-producto1.deleteAll();
+producto1.deleteAll(); */
