@@ -18,7 +18,7 @@ class Contenedor{
                 //Se agrega el objeto al array 
             const arrayCompleto = JSON.stringify([...info, objetoConId]);
 
-            fs.promises.writeFile("./Test.txt", arrayCompleto)
+            await fs.promises.writeFile("./Test.txt", arrayCompleto)
             console.log("Se ha agregado el producto")
             console.log(`El ID asignado es ${id}`)
             }            
@@ -63,7 +63,7 @@ class Contenedor{
                 const nuevoArray = info.filter((item) =>item.id !== numId);
 
                 const resultado = JSON.stringify(nuevoArray)
-                fs.promises.writeFile("./Test.txt", resultado)
+                await fs.promises.writeFile("./Test.txt", resultado)
                 console.log("El producto seleccionado ha sido eliminado")
             } else {
                 console.log("No existe el ID ingresado")                
@@ -76,13 +76,15 @@ class Contenedor{
     async deleteAll(){
         try {
             const arrayVacio = JSON.stringify([])
-            fs.promises.writeFile("./Test.txt", arrayVacio)
+            await fs.promises.writeFile("./Test.txt", arrayVacio)
             console.log("Todos los productos han sido eliminados")
         } catch (error) {
             console.log(error)
         }
     }
 }
+
+/*
 //Prueba de la función Save()
 const producto1 = new Contenedor ("pelotas",200,"https://google.com.ar");
 producto1.save(producto1)
@@ -101,3 +103,4 @@ producto1.deleteById(3);
 
 //Prueba de la función DeleteAll()
 producto1.deleteAll();
+*/

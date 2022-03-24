@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "express": "^4.17.3",
+    "random": "^3.0.6"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "proyecto",
+  "description": "Proyecto realizado para CoderHouse con fines educativos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zlatar7/Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zlatar7/Backend/issues"
+  },
+  "homepage": "https://github.com/zlatar7/Backend#readme"
+}
