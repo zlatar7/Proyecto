@@ -1,33 +1,58 @@
-const fs = require('fs');
-const random = require ('random');
+const productos = [ {"price":100, "title":"calculadora", "thumbnail":"www.calculadora.com","id":1},
+                    {"price": 150 , "title":"mochila", "thumbnail":"www.mochila.org", "id": 2},
+                    {"price": 125, "title":"lapiz", "thumbnail":"www.lapiz.com.ar", "id":3},
+                    {"price": 200, "title":"regla", "thumbnail":"www.regla.jpg.com", "id":4}]
 
-function obtenerProducto (){
+export function getProducts (){
     try {
-        const contenido =  fs.readFileSync("./Test.txt", "utf-8");
-        const info = JSON.parse(contenido);
-        return info.map(item =>`<ul><li>${item.id}</li><li>Producto: $${item.title}</li> <li>Precio:${item.price}</li> <li>Imagen:${item.thumbnail}</li></ul>`)
+       return productos
     } catch (error) { 
-        console.log(error)
-    }
-    
+        return `${error}: Productos no encontrados`
+    } 
 }
-function obtenerProductoRandom (){
+export function getProductId (productoId){
     try {
-        const contenido = fs.readFileSync("./Test.txt", "utf-8");
-        const info = JSON.parse(contenido);
-        //Numero al azar y total de productos del array
-        const totalNum = info.length;
-        const randomNum = random.int(1, totalNum);
-
-            if (contenido.length > 0) {
-                let resultado = info.filter(item=> item.id === randomNum)
-                return resultado.map(item=>`Id: ${item.id}</br> Producto: ${item.title}</br> Precio: $${item.price}</br> Imagen: ${item.thumbnail}`) 
-            } else {
-                console.log(null)
-            }
+        if(productoId < productos.length && productoId > 0){
+        let selectedProduct = productos[productoId-1];
+        return selectedProduct}
+        else{
+            return "ERROR: Producto no encontrado"
+        }
     } catch (error) { 
-        console.log(error)
-    }
+        return error
+    } 
+}
+export function updateProduct (producto){
+    try { 
+        let ultimoElemento = productos[productos.length - 1]
+        let Id = ultimoElemento.id + 1;
+        let newProduct = {...producto, Id};
+       return newProduct
+    } catch (error) { 
+        error
+    } 
+}
+export function updateId (idProducto){
+    try {
+        if (idProducto > 0 && idProducto < productos.length) {
+            let selectedObject = productos[idProducto - 1]
+            let object= JSON.stringify(selectedObject)
+            return  `El objeto ${object} ha sido actualizado`
+        } else {
+            return `Error: Producto no encontrado`
+        }
+       return
+    } catch (error) { 
+        return error
+    } 
 }
 
-module.exports = {obtenerProducto, obtenerProductoRandom};
+export function deleteProduct (producto){
+    try {
+        let id = producto.id;
+        productos.splice(id, 1)
+        return productos
+    } catch (error) { 
+        return error
+    }
+}

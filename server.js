@@ -1,18 +1,11 @@
-const express = require('express')
+import express from 'express';
+import router from './routes/index.js';
 const app = express();
-const {obtenerProducto, obtenerProductoRandom} = require("./controllers/main");
 
-
-app.use(express.static('public'))
-
-app.get('/productos', (req,res) => { 
-    let respuesta = obtenerProducto();
-    res.send(`<h1>${respuesta}</h1>`);
-})
-app.get('/productoRandom', (req,res) => {
-    let respuesta = obtenerProductoRandom();
-    res.send(`<h1>${respuesta}</h1>`)
-})
+app.use(express.urlencoded({extended: true}))
+app.use(express.json());
+app.use("/api", router)
+app.use(express.static('views'))
 
 const PORT = 8080 
 
