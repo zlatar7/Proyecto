@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%if (productos.length > 0) { %>
+    <table style="background-color: #7fdbff; margin: auto">
+
+        <tr>
+            <th><h2>Precio</h2></th>
+            <th><h2>Titulo</h2></th>
+            <th><h2>Foto</h2></th>
+        </tr>
+
+        <% productos.forEach(function(producto) { %>
+        <tr>
+            <td>$ <%- producto.price %></td>
+            <td><%- producto.title %></td>
+            <td><img src=<%-`${producto.thumbnail}`%> alt="foto" height="50px"></td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } else { %>
+    <h1 style="color: #00b7ff; text-align: center">NO HAY PRODUCTOS</h1>
+    <% } %>
+<a href="/">VOLVER AL INICIO</a>
+</body>
+</html>
