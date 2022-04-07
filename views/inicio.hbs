@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<table style="background-color: #7fdbff; margin: auto">
+    {{#if productos}}
+    <tr>
+        <th><h2>Precio</h2></th>
+        <th><h2>Titulo</h2></th>
+        <th><h2>Foto</h2></th>
+    </tr>
+        {{#each productos}}
+    <tr>
+        <td>$ {{this.price}}</td>
+        <td>{{this.title}}</td>
+        <td><img src="{{this.thumbnail}}" alt="foto" height="50px"></td>
+    </tr>
+        {{/each}}
+    {{else}}
+    <h1 style="color: #00b7ff; text-align: center">NO HAY PRODUCTOS</h1>
+    {{/if}}
+</table>
+<a href="/">VOLVER AL INICIO</a>
+</body>
+</html>

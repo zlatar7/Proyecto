@@ -1,17 +1,17 @@
 {
   "dependencies": {
     "express": "^4.17.3",
+    "express-handlebars": "^6.0.4",
     "random": "^3.0.6"
   },
   "scripts": {
     "start": "node server.js"
   },
-  "type": "module",
+  "type": "commonjs",
   "name": "proyecto",
   "description": "Proyecto realizado para CoderHouse con fines educativos",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zlatar7/Backend.git"
