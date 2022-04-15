@@ -1,16 +1,18 @@
-const productos = [ {"price":100, "title":"calculadora", "thumbnail":"www.calculadora.com","id":1},
-                    {"price": 150 , "title":"mochila", "thumbnail":"www.mochila.org", "id": 2},
-                    {"price": 125, "title":"lapiz", "thumbnail":"www.lapiz.com.ar", "id":3},
-                    {"price": 200, "title":"regla", "thumbnail":"www.regla.jpg.com", "id":4}]
+const productos = [
+    {price: 1000, title: "libro", thumbnail: "https://cdn3.iconfinder.com/data/icons/education-and-school-8/48/Book-256.png"},
+    {price: 80, title: "lapicera", thumbnail: "https://cdn3.iconfinder.com/data/icons/flat-icons-web/40/Sharpie-256.png"},
+    {price: 110, title: "regla", thumbnail: "https://cdn3.iconfinder.com/data/icons/education-and-learning-set-2-1/256/47-256.png"},
+    {price: 4000, title: "mochila", thumbnail: "https://cdn4.iconfinder.com/data/icons/camping-flat/614/1341_-_Bag-256.png"}
+]
 
-export function getProducts (){
+function getProducts (){
     try {
        return productos
     } catch (error) { 
         return `${error}: Productos no encontrados`
     } 
 }
-export function getProductId (productoId){
+function getProductId (productoId){
     try {
         if(productoId < productos.length && productoId > 0){
         let selectedProduct = productos[productoId-1];
@@ -22,7 +24,7 @@ export function getProductId (productoId){
         return error
     } 
 }
-export function updateProduct (producto){
+function updateProduct (producto){
     try { 
         let ultimoElemento = productos[productos.length - 1]
         let Id = ultimoElemento.id + 1;
@@ -32,7 +34,7 @@ export function updateProduct (producto){
         error
     } 
 }
-export function updateId (idProducto){
+function updateId (idProducto){
     try {
         if (idProducto > 0 && idProducto < productos.length) {
             let selectedObject = productos[idProducto - 1]
@@ -47,7 +49,7 @@ export function updateId (idProducto){
     } 
 }
 
-export function deleteProduct (producto){
+function deleteProduct (producto){
     try {
         let id = producto.id;
         productos.splice(id, 1)
@@ -56,3 +58,5 @@ export function deleteProduct (producto){
         return error
     }
 }
+
+module.exports = {getProducts, getProductId, updateId, updateProduct, deleteProduct, productos}

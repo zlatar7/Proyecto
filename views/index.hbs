@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Aplicación Chat con WebSockets</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+
+                                            {{!-- FORMULARIO --}}
+
+    <h1 style="color: #00b7ff; margin: auto; width: min-content;">INGRESE LOS DATOS CORRESPONDIENTES:</h1>
+    <br>
+    <br>
+    <form style="background-color: #7fdbff; width: min-content; padding: 2em; margin: auto; border: 2px solid #00b7ff;">
+        <div style="display: flex; margin: auto; width: min-content;">
+            <label for="price">PRECIO:</label>
+            <input type="number" min="0" name="price" placeholder="50" id="input2">
+            <label for="price">TITULO:</label>
+            <input type="text" name="title" placeholder="Goma" id="input1">
+            <label for="price">FOTO (Url):</label>
+            <input type="text" name="thumbnail" id="input3" placeholder="https://cdn1.iconfinder.com/data/icons/office-icons-17/512/ilustracoes_04-08-256.png">
+        </div>
+        <br>
+        <br>
+        <button type="submit" onclick="addProduct()" id="btn-form" style="margin: auto; align-self: center; display: flex;">ENVIAR</button>
+    </form>
+    <br>
+                                    
+                                    {{!-- TABLA DE PRODUCTOS --}}
+
+    <table style="background-color: #7fdbff; margin: auto">
+    {{#if productos}}
+    <tr>
+        <th><h2>Precio</h2></th>
+        <th><h2>Titulo</h2></th>
+        <th><h2>Foto</h2></th>
+    </tr>
+        {{#each productos}}
+    <tr>
+        <td>$ {{this.price}}</td>
+        <td>{{this.title}}</td>
+        <td><img src="{{this.thumbnail}}" alt="foto" height="50px"></td>
+    </tr>
+        {{/each}}
+    {{else}}
+    <h1 style="color: #00b7ff; text-align: center">NO HAY PRODUCTOS</h1>
+    {{/if}}
+</table>
+
+                                        {{!-- CHAT --}}
+
+  <div class="container-fluid mt-3">
+    <h1>CENTRO DE MENSAJES</h1>
+    <br>
+    <div id="contenedor" style="padding:1em; margin:auto; border: 2px solid  #00b7ff;">
+    <form class="form-inline-block" onsubmit="addMessage()" autocomplete="off">
+      <input type="text" id="email" class="form-control my-2 mr-2" placeholder="Tu E-mail">
+      <input type="text" id="texto" class="form-control my-2 mr-2" placeholder="Escribe un mensaje">
+      <input class="btn btn-primary my-2" type="submit" value="Enviar">
+      <span id="messages"></span>
+    </form>
+  </div>
+</div>
+  <script src="./inicio.js"></script>
+</body>
+
+</html>

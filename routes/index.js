@@ -1,10 +1,18 @@
-import {Router} from "express";
-import {getProducts, getProductId, updateProduct, updateId, deleteProduct} from "../controllers/main.js";
+const Router = require("express");
+const {getProducts, getProductId, updateProduct, updateId, deleteProduct, productos} = require("../controllers/main.js");
 
 const router = Router();
 
-router.get("/productos" ,(req, res) =>{
-    res.send(getProducts())
+/* router.get("/", (req, res) =>{
+    res.render("index")
+}) */
+router.get("/productos", (req, res) =>{
+    res.render("inicio", {productos: productos})
+})
+
+router.post("/productos", (req, res)=>{
+    productos.push(req.body)
+    res.redirect("/productos")
 })
 
 router.get("/productos/:id" ,(req, res) =>{
@@ -25,4 +33,4 @@ router.delete("/productos/:id" ,(req, res) =>{
     res.send(deleteProduct(req.params.id))
 })
 
-export default router;
+module.exports = router;
