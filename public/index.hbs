@@ -20,52 +20,48 @@
             <label for="price">PRECIO:</label>
             <input type="number" min="0" name="price" placeholder="50" id="input2">
             <label for="price">TITULO:</label>
-            <input type="text" name="title" placeholder="Goma" id="input1">
+            <input type="text" name="title" placeholder="Transportador" id="input1">
             <label for="price">FOTO (Url):</label>
             <input type="text" name="thumbnail" id="input3" placeholder="https://cdn1.iconfinder.com/data/icons/office-icons-17/512/ilustracoes_04-08-256.png">
         </div>
         <br>
         <br>
-        <button type="submit" onclick="addProduct()" id="btn-form" style="margin: auto; align-self: center; display: flex;">ENVIAR</button>
+        <button type="submit" onclick="addProduct(event)" id="btn-form" style="margin: auto; align-self: center; display: flex;">ENVIAR</button>
     </form>
     <br>
                                     
                                     {{!-- TABLA DE PRODUCTOS --}}
 
-    <table style="background-color: #7fdbff; margin: auto">
-    {{#if productos}}
+    <table id="table" style="background-color: #7fdbff; margin: auto">
     <tr>
         <th><h2>Precio</h2></th>
         <th><h2>Titulo</h2></th>
         <th><h2>Foto</h2></th>
     </tr>
         {{#each productos}}
-    <tr>
+    <tr id="tr">
         <td>$ {{this.price}}</td>
         <td>{{this.title}}</td>
         <td><img src="{{this.thumbnail}}" alt="foto" height="50px"></td>
     </tr>
         {{/each}}
-    {{else}}
-    <h1 style="color: #00b7ff; text-align: center">NO HAY PRODUCTOS</h1>
-    {{/if}}
-</table>
 
+    </table>
                                         {{!-- CHAT --}}
 
   <div class="container-fluid mt-3">
     <h1>CENTRO DE MENSAJES</h1>
     <br>
     <div id="contenedor" style="padding:1em; margin:auto; border: 2px solid  #00b7ff;">
-    <form class="form-inline-block" onsubmit="addMessage()" autocomplete="off">
+    <form class="form-inline-block" autocomplete="off">
       <input type="text" id="email" class="form-control my-2 mr-2" placeholder="Tu E-mail">
       <input type="text" id="texto" class="form-control my-2 mr-2" placeholder="Escribe un mensaje">
-      <input class="btn btn-primary my-2" type="submit" value="Enviar">
+      <input class="btn btn-primary my-2" type="submit" onclick="addMessage(event)" value="Enviar" id="btnMsj">
       <span id="messages"></span>
     </form>
   </div>
 </div>
-  <script src="./inicio.js"></script>
+  <script src="/inicio.js"></script>
 </body>
 
 </html>

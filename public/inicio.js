@@ -1,14 +1,10 @@
-const socket = io.connect();
-const input1 = document.getElementById("input1").value;
-const input2 = document.getElementById("input2").value;
-const input3 = document.getElementById("input3").value;
+const socket = io.connect();;
 
   function realtime(){
    const fecha = Date.now();
    const hoy = new Date(fecha).toISOString();
    const formato = hoy.slice(0, -2);
-   const respuesta = formato.toString();
-   return respuesta
+   return formato
   }
 
 socket.on('messages', function(data) { 
@@ -31,43 +27,48 @@ socket.on('messages', function(data) {
       document.getElementById('messages').innerHTML = html; 
   }
 
-/*   function renderTable(data){
-    let html = data.map(function(elem, index){ 
-        return(`<div>
-              <strong style="color: blue">${elem.price}</strong>:
-              <em style="color:brown">${elem.title}</em> 
-              <em>${elem.thumbnail}</em> </div>`) 
-      }).join(" "); 
-      document.getElementById('').innerHTML = html;
-  } */
-  
-  function addMessage() { 
-   
-    const hora = realtime()
-    const correo = document.getElementById('email').value
-   
-    if (correo.includes("@")){
+  function renderTable(data){
+    let productos = data.map(item =>{ item
+       return(`<tr> 
+        <td>${item.price}</td>
+        <td>${item.title}</td>
+        <td><img src="${item.thumbnail}" alt="foto" height="50px"></td>
+      </tr>`)})
 
-      let mensaje = { 
-        email: document.getElementById('email').value,
-        hora: hora, 
-        text: document.getElementById('texto').value,
-      }; 
-      socket.emit('new-message', mensaje); // new-message es el nombre del evento (recordatorio)
+      document.getElementById("table").innerHTML = productos;
+      console.log(productos)
+}
   
-      document.getElementById('texto').value = ''
-      document.getElementById('texto').focus()
+  function addMessage(event) { 
+      event.preventDefault();
+      
+      const hora = realtime()
+      const correo = document.getElementById('email').value
+     
+      if (correo.includes("@")){
   
-      return false;
+        let mensaje = { 
+          email: document.getElementById('email').value,
+          hora: hora, 
+          text: document.getElementById('texto').value,
+        }; 
+        socket.emit('new-message', mensaje);
+    
+        document.getElementById('texto').value = ''
+        document.getElementById('texto').focus()
+     
+    
+        return false;
+      }
+      else{
+          document.getElementById("contenedor").innerHTML = `ingrese un E-mail válido <button onclick="location.reload()">Aceptar</button>`
+      }
     }
-    else{
-        document.getElementById("contenedor").innerHTML = `ingrese un E-mail válido <button onclick="location.reload()">Aceptar</button>`
-    }
-  }
 
-  function addProduct() { 
+  function addProduct(event) {
+    event.preventDefault();
     let producto = { 
-      price: document.getElementById('input1').value, 
+      price: parseInt(document.getElementById('input1').value), 
       title: document.getElementById('input2').value,
       thumbnail: document.getElementById('input3').value
     }; 

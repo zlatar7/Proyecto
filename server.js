@@ -2,25 +2,24 @@ const express = require('express');
 //const router = require('./routes/index.js');
 const app = express();
 const handlebars = require('express-handlebars');
-const res = require('express/lib/response');
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
 app.engine('hbs', handlebars({
     extname: ".hbs",
     defaultLayout: "index.hbs",
-    layoutsDir: __dirname + "/views",
-    layoutsPartial: __dirname + "/views/partials"})
+    layoutsDir: __dirname + "/public",
+    layoutsPartial: __dirname + "/public/partials"})
     )
     
 app.set("view engine", "hbs");
-app.set("views", "views");
+app.set("views", "./public");
 
-app.use(express.urlencoded({extended: true}))
+/* app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
+app.use("/", router) */
 app.use(express.static('public'))
-//app.use("/", router)
 const messages = []
 const productos = [
     {price: 1000, title: "libro", thumbnail: "https://cdn3.iconfinder.com/data/icons/education-and-school-8/48/Book-256.png"},
@@ -33,7 +32,6 @@ app.get("/", (req, res) =>{
     res.render("index", {productos: productos})
 })
 
-
 io.on('connection', function(socket) {
     console.log('Un cliente se ha conectado');
     socket.emit('messages', messages);
@@ -45,8 +43,8 @@ io.on('connection', function(socket) {
     });    
     socket.on('msj', function(data) {
         productos.push(data);
-        io.sockets.emit('productos', productos);
-        /* res.send("index", {productos: productos}) */
+        io.sockets.emit('msj', productos)
+
     });    
 });
 const PORT = process.env.PORT || 8080;

@@ -1,22 +1,12 @@
 const Router = require("express");
-const {getProducts, getProductId, updateProduct, updateId, deleteProduct, productos} = require("../controllers/main.js");
+const {getProducts, getProductId, updateProduct, updateId, deleteProduct} = require("../controllers/main.js");
 
 const router = Router();
 
-/* router.get("/", (req, res) =>{
-    res.render("index")
-}) */
+//                       RUTA:/API/PRODUCTOS
+
 router.get("/productos", (req, res) =>{
     res.render("inicio", {productos: productos})
-})
-
-router.post("/productos", (req, res)=>{
-    productos.push(req.body)
-    res.redirect("/productos")
-})
-
-router.get("/productos/:id" ,(req, res) =>{
-    res.send(getProductId(req.params.id))
 })
 
 router.post("/productos" ,(req, res) =>{
@@ -31,6 +21,33 @@ router.put("/productos/:id" ,(req, res) =>{
 
 router.delete("/productos/:id" ,(req, res) =>{
     res.send(deleteProduct(req.params.id))
+})
+
+//                       RUTA:/API/CARRITO
+
+router.post("/carrito" ,(req, res) =>{
+    let respuesta =  updateProduct(req.body)
+    res.json(respuesta)
+})
+
+router.delete("/carrito/:id" ,(req, res) =>{
+    let respuesta =  updateProduct(req.body)
+    res.json(respuesta)
+})
+
+router.get("/carrito/:id/productos" ,(req, res) =>{
+    let respuesta =  updateProduct(req.body)
+    res.json(respuesta)
+})
+
+router.post("/carrito/:id/productos" ,(req, res) =>{
+    let respuesta =  updateProduct(req.body)
+    res.json(respuesta)
+})
+
+router.delete("/carrito/:id/productos/:id_prod" ,(req, res) =>{
+    let respuesta =  updateProduct(req.body)
+    res.json(respuesta)
 })
 
 module.exports = router;
