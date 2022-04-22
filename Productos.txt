@@ -1,0 +1,46 @@
+[
+{
+    "id": 1,
+    "timestamp": "Mon Jan 5 2019",
+    "nombre": "Lapiz",
+    "descripcion": "Faber-Castell",
+    "codigo": "cod001",
+    "precio": 50,
+    "stock": 15,
+    "foto": "www.lapiz.com.jpg"
+  
+}
+,
+{
+    "id": 2,
+    "timestamp": "Fri May 14 2021",
+    "nombre": "Lapicera",
+    "descripcion": "Bic",
+    "codigo": "cod 010",
+    "precio": 45,
+    "stock": 28,
+    "foto": "www.lapicera.com.jpg"
+}
+,
+{
+    "id": 3,
+    "timestamp": "Wed Aug 30 2020",
+    "nombre": "Regla",
+    "descripcion": "Mapped",
+    "codigo": "cod 050",
+    "precio": 55,
+    "stock": 13,
+    "foto": "www.regla.com.jpg"
+}
+,
+{
+    "id": 4,
+    "timestamp": "Sat Oct 9 2022",
+    "nombre": "Goma",
+    "descripcion": "Mapped",
+    "codigo": "cod 060",
+    "precio": 30,
+    "stock": 9,
+    "foto": "www.goma.com.jpg"
+}
+]

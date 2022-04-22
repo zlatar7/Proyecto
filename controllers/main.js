@@ -1,55 +1,175 @@
-const getProducts = () => {
-    try {
-       return productos
-    } catch (error) { 
-        return `${error}: Productos no encontrados`
-    } 
+const { promises } = require("fs")
+
+const date = () =>{ return new Date().toDateString()}
+
+    //Funcion para saber el length del array de productos
+const array = async () =>{
+    const contenido = await promises.readFile("./Productos.txt", "utf-8")
+    const info = JSON.parse(contenido)
+        return info.length
 }
-const getProductId = (productoId) => {
+    //Variable del Length de todos los productos
+const allProducts = array();
+
+
+//                          FUNCIONES PARA LAS RUTAS DE "API/PRODUCTOS"
+
+const getProducts = async () => {
+    const contenido = await promises.readFile("./Productos.txt", "utf-8")
+    const info = JSON.parse(contenido)
+
+        return console.log(info)
+}
+const getProductId = async (productoId) => {
+    const contenido = await promises.readFile("./Productos.txt", "utf-8");
+    const info = JSON.parse(contenido)
+
+        try{
+        const producto = info.filter(item => item.id === productoId)
+        return console.log(producto)
+
+    } catch {
+        return "ERROR: Producto no encontrado"
+    }}
+
+
+const createProduct = async (producto) => {
     try {
-        if(productoId < productos.length && productoId > 0){
-        let selectedProduct = productos[productoId-1];
-        return selectedProduct}
-        else{
-            return "ERROR: Producto no encontrado"
+        const contenido = await promises.readFile("./Productos.txt", "utf-8")
+        const info = JSON.parse(contenido)
+
+            //Asiganción del ID al producto
+        const ultimoElemento = info[info.length -1];
+        const id = ultimoElemento.id + 1;
+        const productoConId = {...producto, id};
+
+            //Se agrega el producto al array 
+        const arrayCompleto = JSON.stringify([...info, productoConId]);
+        await promises.writeFile("./Productos.txt", arrayCompleto)
+
+        console.log(`Se ha agregado el producto con el ID: ${id}`)
+        console.log(JSON.parse(arrayCompleto))
+        }            
+    catch (error) {
+        console.log(error)
         }
-    } catch (error) { 
-        return error
-    } 
 }
-const updateProduct = (producto) => {
-    try { 
-        let ultimoElemento = productos[productos.length - 1]
-        let Id = ultimoElemento.id + 1;
-        let newProduct = {...producto, Id};
-       return newProduct
-    } catch (error) { 
-        error
-    } 
-}
-const updateId = (idProducto) => {
-    try {
-        if (idProducto > 0 && idProducto < productos.length) {
-            let selectedObject = productos[idProducto - 1]
-            let object= JSON.stringify(selectedObject)
-            return  `El objeto ${object} ha sido actualizado`
+const updateById = async (idProducto, nuevoProducto) => {
+
+        if (idProducto > 0 && idProducto <= array()) {
+
+            const contenido = await promises.readFile("./Productos.txt", "utf-8")
+            const info = JSON.parse(contenido)
+                //Selección y reemplazo del producto por id
+            const indexElemento = idProducto - 1;
+            info.splice(indexElemento, 1)
+                //Agrega el nuevo producto al array
+            const arrayFinal = JSON.stringify([...info, nuevoProducto]);
+
+            await promises.writeFile("./Productos.txt", arrayFinal)
+
+            return  console.log(`El objeto ha sido actualizado. Nueva lista de productos: ${arrayFinal}`)
         } else {
             return `Error: Producto no encontrado`
         }
-       return
-    } catch (error) { 
-        return error
-    } 
 }
 
-const deleteProduct = (producto) => {
+const deleteProduct = async (id) => {
     try {
-        let id = producto.id;
-        productos.splice(id, 1)
-        return productos
+        const contenido = await promises.readFile("./Productos.txt", "utf-8")
+        const info = JSON.parse(contenido)
+            //Elimina producto segun el ID
+        const index = id - 1; 
+        info.splice(index , 1)
+
+        const arrayFinal = JSON.stringify(info)
+        await promises.writeFile("./Productos.txt", arrayFinal)
+
+        return console.log(arrayFinal)
+
     } catch (error) { 
         return error
     }
 }
 
-module.exports = {getProducts, getProductId, updateId, updateProduct, deleteProduct}
+//              FUNCIONES PARA LAS RUTAS DE "API/CARRITO"
+
+const createCarrito = async (productos) => {
+
+    const time = date();
+
+    try {
+        const contenido = await promises.readFile("./carrito.txt", "utf-8")
+
+        const id = contenido.length
+        const CarritoNuevo = [{"id": id, "timestamp": time, "productos": productos}]
+        const carrito = JSON.stringify(CarritoNuevo)
+
+        await promises.writeFile("./carrito.txt", carrito)
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+
+}
+const deleteCarrito = async (idCarrito) => {
+    try {
+        const contenido = await promises.readFile("./carrito.txt", "utf-8")
+        const info = JSON.parse(contenido)
+            //Elemento eliminado
+        info.splice(idCarrito - 1, 1)
+        const nuevoArray = JSON.stringify(info)
+        
+        await promises.writeFile("./carrito.txt", nuevoArray)
+
+        return console.log(nuevoArray)
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+const getCarrito = async (id) => {
+
+    try {
+        const contenido = await promises.readFile("./carrito.txt", "utf-8")
+        const info = JSON.parse(contenido)
+
+        return console.log(contenido)
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+const addProduct= async (producto) => {
+
+    try {
+        const contenido = await promises.readFile("./carrito.txt", "utf-8")
+        const info = JSON.parse(contenido)
+
+        const arrayNuevo = [...info, producto]
+        const arrayFinal = JSON.stringify(arrayNuevo)
+
+        await promises.writeFile("./carrito.txt", arrayFinal)
+
+        return console.log(arrayFinal)
+    } catch (error) {
+        console.log(error)
+    }
+}
+const deleteProductCarrito = async (ids) => {
+
+    // LLEGA UN SOLO PARAMETRO
+    console.log(ids)
+
+    try {
+        const contenido = await promises.readFile("./carrito.txt", "utf-8")
+        const info = JSON.parse(contenido)
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = {getProducts, getProductId, updateById, createProduct, deleteProduct, allProducts, createCarrito, deleteCarrito, getCarrito, addProduct, deleteProductCarrito}
