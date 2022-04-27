@@ -1,174 +1,207 @@
-const { promises } = require("fs")
+const fs = require("fs")
 
 const date = () =>{ return new Date().toDateString()}
 
-    //Funcion para saber el length del array de productos
-const array = async () =>{
-    const contenido = await promises.readFile("./Productos.txt", "utf-8")
+//                          Funcion para saber el length del array de productos
+const array = () =>{
+    const contenido = fs.readFileSync("./Productos.txt", "utf-8")
     const info = JSON.parse(contenido)
         return info.length
 }
-    //Variable del Length de todos los productos
+//                          Variable del Length de todos los productos
 const allProducts = array();
 
 
-//                          FUNCIONES PARA LAS RUTAS DE "API/PRODUCTOS"
+//     ----------------------------FUNCIONES PARA LAS RUTAS DE "API/PRODUCTOS"-----------------------------------
 
-const getProducts = async () => {
-    const contenido = await promises.readFile("./Productos.txt", "utf-8")
+const getProducts = () => {
+    const contenido = fs.readFileSync("./Productos.txt", "utf-8")
     const info = JSON.parse(contenido)
-
-        return console.log(info)
+        return info
 }
-const getProductId = async (productoId) => {
-    const contenido = await promises.readFile("./Productos.txt", "utf-8");
+const getProductId = (productoId) => {
+    const contenido = fs.readFileSync("./Productos.txt", "utf-8");
     const info = JSON.parse(contenido)
 
         try{
-        const producto = info.filter(item => item.id === productoId)
-        return console.log(producto)
+        const producto = info[productoId - 1]
+        return producto
 
     } catch {
         return "ERROR: Producto no encontrado"
     }}
 
 
-const createProduct = async (producto) => {
+const createProduct = (producto) => {
     try {
-        const contenido = await promises.readFile("./Productos.txt", "utf-8")
+        const contenido = fs.readFileSync("./Productos.txt", "utf-8")
         const info = JSON.parse(contenido)
 
             //Asiganción del ID al producto
-        const ultimoElemento = info[info.length -1];
-        const id = ultimoElemento.id + 1;
+        const id = info.length + 1;
         const productoConId = {...producto, id};
 
             //Se agrega el producto al array 
         const arrayCompleto = JSON.stringify([...info, productoConId]);
-        await promises.writeFile("./Productos.txt", arrayCompleto)
+        
+        fs.writeFileSync("./Productos.txt", arrayCompleto)
 
-        console.log(`Se ha agregado el producto con el ID: ${id}`)
-        console.log(JSON.parse(arrayCompleto))
+        return JSON.parse(arrayCompleto)
         }            
     catch (error) {
         console.log(error)
         }
 }
-const updateById = async (idProducto, nuevoProducto) => {
+const updateById = (nuevoProducto) => {
 
-        if (idProducto > 0 && idProducto <= array()) {
+        if (nuevoProducto.id > 0 && nuevoProducto.id <= array()) {
 
-            const contenido = await promises.readFile("./Productos.txt", "utf-8")
+            const contenido = fs.readFileSync("./Productos.txt", "utf-8")
             const info = JSON.parse(contenido)
-                //Selección y reemplazo del producto por id
-            const indexElemento = idProducto - 1;
-            info.splice(indexElemento, 1)
-                //Agrega el nuevo producto al array
-            const arrayFinal = JSON.stringify([...info, nuevoProducto]);
+            const id = nuevoProducto.id
 
-            await promises.writeFile("./Productos.txt", arrayFinal)
+            info.splice(id - 1, 1, nuevoProducto)
 
-            return  console.log(`El objeto ha sido actualizado. Nueva lista de productos: ${arrayFinal}`)
+            const arrayFinal = JSON.stringify(info)
+            fs.writeFileSync("./Productos.txt", arrayFinal)
+
+            return  info
         } else {
             return `Error: Producto no encontrado`
         }
 }
 
-const deleteProduct = async (id) => {
+const deleteProduct = (id) => {
     try {
-        const contenido = await promises.readFile("./Productos.txt", "utf-8")
+        const contenido = fs.readFileSync("./Productos.txt", "utf-8")
         const info = JSON.parse(contenido)
             //Elimina producto segun el ID
         const index = id - 1; 
         info.splice(index , 1)
 
         const arrayFinal = JSON.stringify(info)
-        await promises.writeFile("./Productos.txt", arrayFinal)
+        fs.writeFileSync("./Productos.txt", arrayFinal)
 
-        return console.log(arrayFinal)
+        return info
 
     } catch (error) { 
         return error
     }
 }
 
-//              FUNCIONES PARA LAS RUTAS DE "API/CARRITO"
+//      -----------------------FUNCIONES PARA LAS RUTAS DE "API/CARRITO"---------------------------------------
 
-const createCarrito = async (productos) => {
+//                                          MÉTODOS POST
+
+
+const addProduct = (producto, id) => {
+    
+    try {
+        const contenido = fs.readFileSync("./carrito.txt", "utf-8")
+        const info = JSON.parse(contenido)
+
+        const productoIngresado = {"id":id,"timestamp": date(), producto}
+        
+        info.splice(id, 1, productoIngresado)
+
+        const arrayFinal = JSON.stringify([...info, productoIngresado])
+
+        fs.writeFileSync("./carrito.txt", arrayFinal)
+
+        return info
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const createCarrito = (productos) => {
 
     const time = date();
 
     try {
-        const contenido = await promises.readFile("./carrito.txt", "utf-8")
-
-        const id = contenido.length
-        const CarritoNuevo = [{"id": id, "timestamp": time, "productos": productos}]
-        const carrito = JSON.stringify(CarritoNuevo)
-
-        await promises.writeFile("./carrito.txt", carrito)
+        const contenido = fs.readFileSync("./carrito.txt", "utf-8")
+        const info = JSON.parse(contenido)
         
+        const ultimoElemento = info[info.length - 1]
+        const id = ultimoElemento.id + 1
+        const carritoNuevo = {"id": id, "timestamp": time, "productos": productos}
+        const carrito = JSON.stringify([...info, carritoNuevo])
+
+        fs.writeFileSync("./carrito.txt", carrito)
+  
+        return `El ID del carrito es: ${id}`
+
     } catch (error) {
         console.log(error)
-    }
-
-
 }
-const deleteCarrito = async (idCarrito) => {
+
+//                                        MÉTODOS DELETE
+}
+const deleteCarrito = (idCarrito) => {
     try {
-        const contenido = await promises.readFile("./carrito.txt", "utf-8")
+        const contenido = fs.readFileSync("./carrito.txt", "utf-8")
         const info = JSON.parse(contenido)
+
+        // Búsqueda de la variable para el condicional
+        const arrayIds = info.map(item => item.id)
+        const carritoSeleccionado = arrayIds.filter(item => item == idCarrito)
+
+        if (idCarrito == carritoSeleccionado) {
+            
             //Elemento eliminado
-        info.splice(idCarrito - 1, 1)
-        const nuevoArray = JSON.stringify(info)
-        
-        await promises.writeFile("./carrito.txt", nuevoArray)
+            info.splice(idCarrito, 1)
+            
+            const arrayFinal = JSON.stringify(info)
+            fs.writeFileSync("./carrito.txt", arrayFinal)
+    
+            return `El carrito con el ID: ${idCarrito} ha sido eliminado`
 
-        return console.log(nuevoArray)
+        } else {
+            return `No existe carrito con el ID: ${idCarrito}`
+        }
         
     } catch (error) {
         console.log(error)
     }
 
 }
-const getCarrito = async (id) => {
 
-    try {
-        const contenido = await promises.readFile("./carrito.txt", "utf-8")
-        const info = JSON.parse(contenido)
+const deleteProductCarrito = (id, id_prod) => {
 
-        return console.log(contenido)
+    const contenido = fs.readFileSync("./carrito.txt", "utf-8")
+    const info = JSON.parse(contenido)
+
+    if(id >= 0 && id < info.length){
+
+        const carritoSeleccionado = info.filter(item=> item.id == id)
+        const productos = carritoSeleccionado.map(item=> item.productos)
+        const productoCarrito = productos[0]
         
-    } catch (error) {
-        console.log(error)
+        //Elimina el producto
+        productoCarrito.splice(id_prod - 1, 1)
+
+        const objetoFinal = JSON.stringify(info)
+        fs.writeFileSync("./carrito.txt", objetoFinal)
+
+        return info
+    } else{
+        console.log("Error: el ID ingresado no corresponde con ningún ID de carrito")
     }
 }
-const addProduct= async (producto) => {
 
-    try {
-        const contenido = await promises.readFile("./carrito.txt", "utf-8")
-        const info = JSON.parse(contenido)
+//                                      MÉTODO GET
+const getCarrito = (id) => {
 
-        const arrayNuevo = [...info, producto]
-        const arrayFinal = JSON.stringify(arrayNuevo)
+    const contenido = fs.readFileSync("./carrito.txt", "utf-8")
+    const info = JSON.parse(contenido)
+    
+    if (id < info.length && id >= 0) {
 
-        await promises.writeFile("./carrito.txt", arrayFinal)
-
-        return console.log(arrayFinal)
-    } catch (error) {
-        console.log(error)
-    }
-}
-const deleteProductCarrito = async (ids) => {
-
-    // LLEGA UN SOLO PARAMETRO
-    console.log(ids)
-
-    try {
-        const contenido = await promises.readFile("./carrito.txt", "utf-8")
-        const info = JSON.parse(contenido)
+        return info[id]
         
-    } catch (error) {
-        console.log(error)
+    } else {
+        return "El ID ingresado no se corresponde con los carritos existentes"
     }
 }
 

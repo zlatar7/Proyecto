@@ -1,1 +1,46 @@
-[{"id":2,"timestamp":"Thu Apr 21 2022","productos":{"id":1,"timestamp":"Mon Jan 5 2019","nombre":"Lapiz","descripcion":"Faber-Castell","codigo":"cod001","precio":50,"stock":15,"foto":"www.lapiz.com.jpg"}}]
+[
+{"id":0,
+"timestamp":"Mon May 1990",
+"productos":{
+    "id":"0",
+    "timestamp":"",
+    "nombre":"",
+    "descripcion":"",
+    "codigo":"",
+    "precio":"",
+    "stock":"",
+    "foto":""}},
+{"id":1,
+"timestamp":"Tue Apr 01 2005",
+"productos":{
+    "id":5,
+    "timestamp":"Tue Apr 26 2022",
+    "nombre":"Lapiz",
+    "descripcion":"Faber-Castell",
+    "codigo":"cod002",
+    "precio":50,
+    "stock":15,
+    "foto":"www.lapiz.com.jpg"}
+},
+{"id":2,
+"timestamp":"Tue Jan 15 2022",
+"productos":[{
+    "id":1,
+    "timestamp":"Tue Apr 26 2022",
+    "nombre":"Lapiz",
+    "descripcion":"Faber-Castell",
+    "codigo":"cod002",
+    "precio":50,
+    "stock":15,
+    "foto":"www.lapiz.com.jpg"}
+    ,
+    {"id":2,
+    "timestamp":"Sat Aug 21 2022",
+    "nombre":"Boligoma",
+    "descripcion":"Boligoma",
+    "codigo":"cod102",
+    "precio":80,
+    "stock":1,
+    "foto":"www.boligoma.com.jpg"}]
+}
+]
